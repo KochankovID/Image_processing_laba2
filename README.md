@@ -1,4 +1,7 @@
 # Задание 2. 
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/11a369a6b00442b2bb6290285b20051c)](https://app.codacy.com/gh/KochankovID/Image_processing_laba2?utm_source=github.com&utm_medium=referral&utm_content=KochankovID/Image_processing_laba2&utm_campaign=Badge_Grade_Settings)
+
 ## Типы шума на изображении, моделирование аддитивного шума, алгоритмы фильтрации изображений. 
 ## СРОК СДАЧИ - 06.11.2020
 ### 1. Моделирование аддитивного шума. 
