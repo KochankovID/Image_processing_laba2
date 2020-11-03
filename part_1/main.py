@@ -24,7 +24,7 @@ def test_gauss_noise(img_path: str):
     noisy = get_gauss_noise(image)
     end = time.perf_counter()
 
-    print('median filter time: ', end - start)
+    print('gauss noise generator time: ', end - start)
 
     create_two_windows(image, noisy)
     return noisy
