@@ -9,6 +9,8 @@ from skimage.metrics import mean_squared_error
 import sys
 sys.path.append('..')
 
+from opencv_scripts.windows_manager import create_two_windows
+
 
 def median_filter(image, kernel_size: int):
     dst = image.copy()
@@ -39,7 +41,7 @@ def MedianBlur(image_path: str, kernel_size: int = 3):
     median = cv2.medianBlur(img, kernel_size)
     custom_median = median_filter(img, kernel_size)
 
-    # create_two_windows(median, custom_median)
+    create_two_windows(median, custom_median)
     print('Compare median and custom_median:')
     print(mean_squared_error(median, custom_median))
     print('Compare median and source:')
@@ -80,7 +82,7 @@ def GaussianBlur(image_path: str):
     gauss = cv2.GaussianBlur(img, (3, 3), 1)
     custom_gauss = gaussian_filter(img, 3, 1)
 
-    # create_two_windows(gauss, custom_gauss)
+    create_two_windows(gauss, custom_gauss)
     print('Compare gauss and custom_gauss:')
     print(mean_squared_error(gauss, custom_gauss))
     print('Compare gauss and source:')
@@ -110,7 +112,7 @@ def Blur(image_path: str):
     blur = cv2.blur(img, (3, 3))
     custom_blur = blur_filter(img, 3)
 
-    # create_two_windows(blur, custom_blur)
+    create_two_windows(blur, custom_blur)
     print('Compare blur and custom_blur:')
     print(mean_squared_error(blur, custom_blur))
     print('Compare blur and source:')
@@ -123,7 +125,7 @@ if __name__ == "__main__":
         assert osp.isfile(image_path), '{} is not a file!'.format(image_path)
     except (IndexError, AssertionError):
         print('path to the image is not valid! The default path was set!')
-        image_path = './src/cat.jpg'
+        image_path = './src/city.jpg'
 
     MedianBlur(image_path)
     GaussianBlur(image_path)
