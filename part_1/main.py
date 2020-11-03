@@ -10,8 +10,8 @@ sys.path.append('..')
 from opencv_scripts.windows_manager import create_two_windows
 
 
-def get_gauss_noise(image_path: str):
-    image = cv2.imread(image_path)
+def get_gauss_noise(img_path: str):
+    image = cv2.imread(img_path)
 
     start = time.time()
 
