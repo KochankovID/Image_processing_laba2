@@ -6,34 +6,39 @@ import cv2
 import time
 
 from skimage.metrics import mean_squared_error
-from skimage.filters import gaussian
+from opencv_scripts.windows_manager import create_two_windows
+from part_1.main import get_gauss_noise
 
 import sys
 sys.path.append('..')
-
-from opencv_scripts.windows_manager import create_two_windows
-from part_1.main import get_gauss_noise
 
 
 def median_filter(image, kernel_size: int):
     radius = kernel_size // 2
 
     temp = image.copy()
-    upper_border = np.repeat(np.expand_dims(temp[0, :], axis=0), radius, axis=0)
-    lower_border = np.repeat(np.expand_dims(temp[-1, :], axis=0), radius, axis=0)
+    upper_border = np.repeat(np.expand_dims(temp[0, :], axis=0),
+                             radius, axis=0)
+    lower_border = np.repeat(np.expand_dims(temp[-1, :], axis=0),
+                             radius, axis=0)
     temp = cv2.vconcat([upper_border, temp, lower_border])
-    left_border = np.repeat(np.expand_dims(temp[:, 0], axis=1), radius, axis=1)
-    right_border = np.repeat(np.expand_dims(temp[:, -1], axis=1), radius, axis=1)
+    left_border = np.repeat(np.expand_dims(temp[:, 0], axis=1),
+                            radius, axis=1)
+    right_border = np.repeat(np.expand_dims(temp[:, -1], axis=1),
+                             radius, axis=1)
     temp = cv2.hconcat([left_border, temp, right_border])
-    
+
     dst = temp.copy()
     for x in range(radius, temp.shape[0] - radius):
         for y in range(radius, temp.shape[1] - radius):
-            red_array = temp[(x - radius):(x + radius + 1), (y - radius):(y + radius + 1), 2]
+            red_array = temp[(x - radius):(x + radius + 1),
+                             (y - radius):(y + radius + 1), 2]
             red_median = np.median(red_array)
-            green_array = temp[(x - radius):(x + radius + 1), (y - radius):(y + radius + 1), 1]
+            green_array = temp[(x - radius):(x + radius + 1),
+                               (y - radius):(y + radius + 1), 1]
             green_median = np.median(green_array)
-            blue_array = temp[(x - radius):(x + radius + 1), (y - radius):(y + radius + 1), 0]
+            blue_array = temp[(x - radius):(x + radius + 1),
+                              (y - radius):(y + radius + 1), 0]
             blue_median = np.median(blue_array)
             dst[x, y] = [blue_median, green_median, red_median]
     return dst[radius:-radius, radius:-radius]
@@ -73,26 +78,31 @@ def gaussian_filter(image, kernel_size: (int, int), sigma: float):
     radius_y = kernel_size[1] // 2
 
     kernel = np.ones((kernel_size[0], kernel_size[1], 3), np.float32)
-    norm = 0         
+    norm = 0
     for i in range(-radius_x, radius_x + 1):
         for j in range(-radius_y, radius_y + 1):
             kernel[i + radius_x, j + radius_y] = math.exp(-(i * i + j * j) /
-                                                      (2 * sigma * sigma))
+                                                          (2 * sigma * sigma))
             norm += kernel[i + radius_x, j + radius_y]
     kernel /= norm
 
     temp = image.copy()
-    upper_border = np.repeat(np.expand_dims(temp[0, :], axis=0), radius_x, axis=0)
-    lower_border = np.repeat(np.expand_dims(temp[-1, :], axis=0), radius_x, axis=0)
+    upper_border = np.repeat(np.expand_dims(temp[0, :], axis=0),
+                             radius_x, axis=0)
+    lower_border = np.repeat(np.expand_dims(temp[-1, :], axis=0),
+                             radius_x, axis=0)
     temp = cv2.vconcat([upper_border, temp, lower_border])
-    left_border = np.repeat(np.expand_dims(temp[:, 0], axis=1), radius_y, axis=1)
-    right_border = np.repeat(np.expand_dims(temp[:, -1], axis=1), radius_y, axis=1)
+    left_border = np.repeat(np.expand_dims(temp[:, 0], axis=1),
+                            radius_y, axis=1)
+    right_border = np.repeat(np.expand_dims(temp[:, -1], axis=1),
+                             radius_y, axis=1)
     temp = cv2.hconcat([left_border, temp, right_border])
 
     dst = temp.copy()
     for x in range(radius_x, temp.shape[0] - radius_x):
         for y in range(radius_y, temp.shape[1] - radius_y):
-            dst[x, y] = (temp[(x - radius_x):(x + radius_x + 1), (y - radius_y):(y + radius_y + 1)] * kernel).sum(axis=(0,1))
+            dst[x, y] = (temp[(x - radius_x):(x + radius_x + 1),
+                              (y - radius_y):(y + radius_y + 1)] * kernel).sum(axis=(0, 1))
 
     return dst[radius_x:-radius_x, radius_y:-radius_y]
 
@@ -112,7 +122,7 @@ def GaussianBlur(image_path: str):
     print(mean_squared_error(gauss, img))
 
     start = time.time()
-    custom_gauss = gaussian_filter(img, (3,3), 1)
+    custom_gauss = gaussian_filter(img, (3, 3), 1)
     end = time.time()
     print('\nTime:')
     print(end - start)
@@ -131,21 +141,26 @@ def blur_filter(image, kernel_size: (int, int)):
     radius_y = kernel_size[1] // 2
 
     kernel = np.ones((kernel_size[0], kernel_size[1], 3), np.float32)
-    norm = kernel_size[0] * kernel_size[1]           
+    norm = kernel_size[0] * kernel_size[1]
     kernel /= norm
 
     temp = image.copy()
-    upper_border = np.repeat(np.expand_dims(temp[0, :], axis=0), radius_x, axis=0)
-    lower_border = np.repeat(np.expand_dims(temp[-1, :], axis=0), radius_x, axis=0)
+    upper_border = np.repeat(np.expand_dims(temp[0, :], axis=0),
+                             radius_x, axis=0)
+    lower_border = np.repeat(np.expand_dims(temp[-1, :], axis=0),
+                             radius_x, axis=0)
     temp = cv2.vconcat([upper_border, temp, lower_border])
-    left_border = np.repeat(np.expand_dims(temp[:, 0], axis=1), radius_y, axis=1)
-    right_border = np.repeat(np.expand_dims(temp[:, -1], axis=1), radius_y, axis=1)
+    left_border = np.repeat(np.expand_dims(temp[:, 0], axis=1),
+                            radius_y, axis=1)
+    right_border = np.repeat(np.expand_dims(temp[:, -1], axis=1),
+                             radius_y, axis=1)
     temp = cv2.hconcat([left_border, temp, right_border])
 
     dst = temp.copy()
     for x in range(radius_x, temp.shape[0] - radius_x):
         for y in range(radius_y, temp.shape[1] - radius_y):
-            dst[x, y] = (temp[(x - radius_x):(x + radius_x + 1), (y - radius_y):(y + radius_y + 1)] * kernel).sum(axis=(0,1))
+            dst[x, y] = (temp[(x - radius_x):(x + radius_x + 1),
+                              (y - radius_y):(y + radius_y + 1)] * kernel).sum(axis=(0, 1))
 
     return dst[radius_x:-radius_x, radius_y:-radius_y]
 
