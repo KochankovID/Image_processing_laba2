@@ -6,11 +6,12 @@ import cv2
 import time
 
 from skimage.metrics import mean_squared_error
-from opencv_scripts.windows_manager import create_two_windows
-from part_1.main import get_gauss_noise
 
 import sys
 sys.path.append('..')
+
+from opencv_scripts.windows_manager import create_two_windows
+from part_1.main import get_gauss_noise
 
 
 def median_filter(image, kernel_size: int):
@@ -46,7 +47,7 @@ def median_filter(image, kernel_size: int):
 
 def MedianBlur(image_path: str, kernel_size: int = 3):
     img = cv2.imread(image_path)
-    noise = get_gauss_noise(image_path)
+    noise = get_gauss_noise(img)
 
     start = time.time()
     median = cv2.medianBlur(img, kernel_size)
@@ -109,7 +110,7 @@ def gaussian_filter(image, kernel_size: (int, int), sigma: float):
 
 def GaussianBlur(image_path: str):
     img = cv2.imread(image_path)
-    noise = get_gauss_noise(image_path)
+    noise = get_gauss_noise(img)
 
     start = time.time()
     gauss = cv2.GaussianBlur(img, (3, 3), 1)
@@ -167,7 +168,7 @@ def blur_filter(image, kernel_size: (int, int)):
 
 def Blur(image_path: str):
     img = cv2.imread(image_path)
-    noise = get_gauss_noise(image_path)
+    noise = get_gauss_noise(img)
 
     start = time.time()
     blur = cv2.blur(noise, (3, 3))
@@ -200,7 +201,7 @@ if __name__ == "__main__":
         assert osp.isfile(image_path), '{} is not a file!'.format(image_path)
     except (IndexError, AssertionError):
         print('path to the image is not valid! The default path was set!')
-        image_path = './src/city.jpg'
+        image_path = './src/cat.jpg'
 
     MedianBlur(image_path)
     GaussianBlur(image_path)
