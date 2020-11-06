@@ -26,6 +26,6 @@ def test_gauss_noise(img_path: str):
 
 
 if __name__ == "__main__":
-    image_path = get_image_path(default_path='src/rechnaya_vidra_foto.jpg')
+    image_path = get_image_path(relative_path=__file__, default_path='src/rechnaya_vidra_foto.jpg')
     test_gauss_noise(image_path)
 
