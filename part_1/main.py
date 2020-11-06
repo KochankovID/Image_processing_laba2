@@ -38,3 +38,4 @@ if __name__ == "__main__":
         print('path to the image is not valid! The default path was set!')
         image_path = './src/rechnaya_vidra_foto.jpg'
     test_gauss_noise(image_path)
+

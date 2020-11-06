@@ -4,7 +4,9 @@ import numpy as np
 
 def create_two_windows(image1: np.ndarray, image2: np.ndarray,
                        title1: str = 'Left window', title2: str = 'Right window') -> None:
+
     """Create two opencv windows with images and titels."""
+
     cv2.namedWindow(title1, cv2.WINDOW_AUTOSIZE)
     cv2.namedWindow(title2, cv2.WINDOW_AUTOSIZE)
 
