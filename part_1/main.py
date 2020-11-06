@@ -1,13 +1,14 @@
 import os.path as osp
-import time
 
 import numpy as np
 import cv2
 
 import sys
-sys.path.append('..')
+sys.path.append(osp.dirname(osp.dirname(__file__)))
 
-from opencv_scripts.windows_manager import create_two_windows
+from image_processing_lib.windows_manager import create_two_windows
+from image_processing_lib.time_comparing import get_time
+from image_processing_lib.cli_image_argument import get_image_path
 
 
 def get_gauss_noise(image):
@@ -19,23 +20,12 @@ def get_gauss_noise(image):
 
 def test_gauss_noise(img_path: str):
     image = cv2.imread(img_path)
-
-    start = time.perf_counter()
-    noisy = get_gauss_noise(image)
-    end = time.perf_counter()
-
-    print('gauss noise generator time: ', end - start)
-
+    noisy = get_time(get_gauss_noise, image)
     create_two_windows(image, noisy)
     return noisy
 
 
 if __name__ == "__main__":
-    try:
-        image_path = sys.argv[1]
-        assert osp.isfile(image_path), '{} is not a file!'.format(image_path)
-    except (IndexError, AssertionError):
-        print('path to the image is not valid! The default path was set!')
-        image_path = './src/rechnaya_vidra_foto.jpg'
+    image_path = get_image_path(default_path='src/rechnaya_vidra_foto.jpg')
     test_gauss_noise(image_path)
 
