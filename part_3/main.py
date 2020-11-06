@@ -6,14 +6,16 @@ import sys
 sys.path.append('..')
 
 from opencv_scripts.windows_manager import create_two_windows
+from part_1.main import get_gauss_noise
 
 
 def cv_median_filter(image1) -> None:
+    noisy = get_gauss_noise(image1)
     start = time.time()
-    new_image = cv2.medianBlur(image1, 3, None)
+    new_image = cv2.medianBlur(noisy, 3, None)
     end = time.time()
     print('median filter time: ', end - start)
-    create_two_windows(image1, new_image, 'original image', 'new image')
+    create_two_windows(noisy, new_image, 'original image', 'new image')
 
 
 if __name__ == "__main__":
@@ -26,3 +28,4 @@ if __name__ == "__main__":
 
     image = cv2.imread(image_path)
     cv_median_filter(image)
+
