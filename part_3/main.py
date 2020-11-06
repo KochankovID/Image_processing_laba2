@@ -18,6 +18,6 @@ def cv_median_filter(image1) -> None:
 
 
 if __name__ == "__main__":
-    image_path = get_image_path(relative_path=__file__, default_path='src/google.jpg')
+    image_path = get_image_path(default_path=osp.join(osp.dirname(__file__), 'src/google.jpg'))
     image = cv2.imread(image_path)
     cv_median_filter(image)
