@@ -40,7 +40,7 @@ def gaussian_filter(image, kernel_size: Tuple[int, int] = (5, 5), sigma: float =
                 -(i ** 2 + j ** 2) / (2 * sigma ** 2)
             )
 
-    kernel /= 2 * math.pi * sigma ** 2 - 1
+    kernel /= 2 * math.pi * sigma ** 2
 
     temp = make_repeat_borders(image, radius_x, radius_y)
 
@@ -91,7 +91,7 @@ def roll(image: np.ndarray, kernel_shape: tuple, dx=1, dy=1, dz=1):
 
 
 def get_clear_image_and_noisy(img_path: str):
-    img = cv2.imread(image_path)
+    img = cv2.imread(img_path)
     noise = get_gauss_noise(img)
     return img, noise
 
