@@ -1,9 +1,26 @@
 import cv2
 import numpy as np
 
+from skimage.metrics import mean_squared_error
 
-def create_two_windows(image1: np.ndarray, image2: np.ndarray,
-                       title1: str = 'Left window', title2: str = 'Right window') -> None:
+
+def comparing_images(
+    custom_alg: np.ndarray,
+    opencv_alg: np.ndarray,
+    first_img_name: str = "first image",
+    second_img_name: str = "second image",
+):
+    log_str = f"Mean_squared_error between {first_img_name} and {second_img_name}: "
+    print(log_str, mean_squared_error(custom_alg, opencv_alg))
+    create_two_windows(custom_alg, opencv_alg, first_img_name, second_img_name)
+
+
+def create_two_windows(
+    image1: np.ndarray,
+    image2: np.ndarray,
+    title1: str = "Left window",
+    title2: str = "Right window",
+) -> None:
 
     """Create two opencv windows with images and titels."""
 
